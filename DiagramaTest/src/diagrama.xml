@@ -3,14 +3,12 @@
     <Nodes>
         <Node id="0" nombre="inicio" tipo="inicio" />
         <Node id="1" nombre="Si soy yo" tipo="decision" />
-        <Node id="2" nombre="task 1" tipo="asignacion" />
-        <Node id="3" nombre="task 2" tipo="declaracion"/>
-        <Node id="4" nombre="activity 2" tipo="declaracion"/>
-        <Node id="5" nombre="task 3" tipo="declaracion"/>
-        <Node id="6" nombre="task 4" tipo="declaracion"/>
-        <Node id="7" nombre="activity 3" tipo="declaracion"/>
-        <Node id="8" nombre="task 5" tipo="declaracion"/>
-        <Node id="9" nombre="task 6" tipo="declaracion"/>
+        <Node id="4" nombre="activity 2" tipo="proceso"/>
+        <Node id="5" nombre="task 3" tipo="entrada"/>
+        <Node id="6" nombre="task 4" tipo="salida"/>
+        <Node id="7" nombre="activity 3" tipo="proceso"/>
+        <Node id="8" nombre="task 5" tipo="proceso"/>
+        <Node id="9" nombre="task 6" tipo="proceso"/>
         <Node id="10" nombre="fin" tipo="fin"/>
     </Nodes>
     <Links>

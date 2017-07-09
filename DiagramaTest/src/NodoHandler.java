@@ -7,7 +7,10 @@ public class NodoHandler {
 	public NodoHandler() {}
 	public void conversor(Element nodo,ShapeNode diagramaNodo) {
 		String tipo = nodo.getAttribute("tipo");
-		switch (tipo) {		 
+		switch (tipo) {
+			 	case "proceso":
+		        	diagramaNodo.setShape(Shape.fromId("Rectangle"));
+		        break;
 		        case "inicio":
 		        	diagramaNodo.setShape(Shape.fromId("Terminator"));
 		        break;
@@ -19,28 +22,14 @@ public class NodoHandler {
 		        case "fin":
 		        	diagramaNodo.setShape(Shape.fromId("Terminator"));
 		        break;
-			    /*    
-		        case "declaracion":
-		        instrucciones;
-		        break;
 		        
-		        case "asignacion":
-			        instrucciones;
-			        break;
-			    
 		        case "entrada":
-			        instrucciones;
-			    break;    
-			        
-		        case "salida":
-			        instrucciones;
+		        	diagramaNodo.setShape(Shape.fromId("Save"));
 			    break;
-			        
 			    
-		        case "fin":
-			        instrucciones;
+		        case "salida":
+		        	diagramaNodo.setShape(Shape.fromId("Save"));
 			    break;
-			     */
 		 }
  
 	}
