@@ -75,12 +75,15 @@ public class Diagrama extends JFrame
 		{
 			Element node = (Element)nodes.item(i);
 			ShapeNode diagramNode = diagram.getFactory().createShapeNode(bounds);
+			//Convierte el "tipo" ubicado en el xml en la forma
 			manejador.conversor(node,diagramNode);
+			///
 			String idNodo = node.getAttribute("id");
 			nodeMap.put(idNodo, diagramNode);
 			diagramNode.setText(idNodo);
 			diagramNode.setText(node.getAttribute("nombre"));
-
+			//Clave para que se vea bien el texto dentro del nodo
+			diagramNode.resizeToFitText(FitSize.KeepRatio);
 		}
 
 		// load link data
