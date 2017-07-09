@@ -50,7 +50,7 @@ public class Diagrama extends JFrame
 
 				HtmlBuilder creador = new HtmlBuilder(diagram);
 				try {
-					String text = creador.createImageHtml("index","Code2Chart","./diagrama.png", "", "png");
+					String text = creador.createImageHtml("index.html","Code2Chart","./diagrama.png", "./diagrama.png", "png");
 					System.out.println(text);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -63,7 +63,7 @@ public class Diagrama extends JFrame
 	{
 		HashMap<String, DiagramNode> nodeMap = new HashMap<String, DiagramNode>();
 		Rectangle2D.Float bounds = new Rectangle2D.Float(0, 0, 15, 8);
-
+		
 		// load the graph XML
 		Document document = loadXmlFile(filepath);
 		Element root = document.getDocumentElement();
@@ -114,6 +114,4 @@ public class Diagrama extends JFrame
 		}
 		return document;
 	}
-	
-	private static final long serialVersionUID = 1L;
 }

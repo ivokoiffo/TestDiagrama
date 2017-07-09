@@ -1,0 +1,7 @@
+Terminator -inicio 
+
+Rectangle- declaracion variables
+
+Save -asignacion variables
+
+Decision - if
