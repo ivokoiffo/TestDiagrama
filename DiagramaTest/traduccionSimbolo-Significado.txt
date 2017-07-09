@@ -2,6 +2,6 @@ Terminator -inicio
 
 Rectangle- declaracion variables
 
-Save -asignacion variables
+Save -entrada de usuario
 
 Decision - if

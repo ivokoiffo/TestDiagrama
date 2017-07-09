@@ -61,6 +61,7 @@ public class Diagrama extends JFrame
 	}
 	void loadGraph(Diagram diagram, String filepath)
 	{
+		NodoHandler manejador = new NodoHandler();
 		HashMap<String, DiagramNode> nodeMap = new HashMap<String, DiagramNode>();
 		Rectangle2D.Float bounds = new Rectangle2D.Float(0, 0, 15, 8);
 		
@@ -74,8 +75,12 @@ public class Diagrama extends JFrame
 		{
 			Element node = (Element)nodes.item(i);
 			ShapeNode diagramNode = diagram.getFactory().createShapeNode(bounds);
-			nodeMap.put(node.getAttribute("id"), diagramNode);
-			diagramNode.setText(node.getAttribute("name"));
+			manejador.conversor(node,diagramNode);
+			String idNodo = node.getAttribute("id");
+			nodeMap.put(idNodo, diagramNode);
+			diagramNode.setText(idNodo);
+			diagramNode.setText(node.getAttribute("nombre"));
+
 		}
 
 		// load link data
