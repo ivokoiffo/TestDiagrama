@@ -12,11 +12,9 @@
         <Node id="10" nombre="fin" tipo="fin"/>
     </Nodes>
     <Links>
-        <Link origin="0" target="1" />
-        <Link origin="1" target="2" />
-        <Link origin="1" target="3" />
+        <Link origin="0" target="1" ></Link>
+        <Link origin="1" target="4" tagLink="YES"/>
         <Link origin="2" target="4" />
-        <Link origin="3" target="4" />
         <Link origin="4" target="5" />
         <Link origin="4" target="6" />
         <Link origin="5" target="10" />
@@ -24,7 +22,6 @@
         <Link origin="0" target="7" />
         <Link origin="7" target="8" />
         <Link origin="8" target="9" />
-        <Link origin="1" target="9" />
-        <Link origin="9" target="10" />
-    </Links>
+        <Link origin="1" target="9" tagLink="NO" />
+        <Link origin="9" target="10" /></Links>
 </Graph>

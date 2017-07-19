@@ -1,5 +1,6 @@
 import org.w3c.dom.Element;
 
+import com.mindfusion.diagramming.AnchorPattern;
 import com.mindfusion.diagramming.Shape;
 import com.mindfusion.diagramming.ShapeNode;
 
@@ -16,7 +17,11 @@ public class NodoHandler {
 		        break;
 	
 		        case "decision":
+	
 		        	diagramaNodo.setShape(Shape.fromId("Decision"));
+					diagramaNodo.setAnchorPattern(AnchorPattern.fromId("Decision2In2Out"));
+					diagramaNodo.setTag(true);
+
 			    break;
 			    
 		        case "fin":

@@ -14,6 +14,14 @@ import org.w3c.dom.*;
 
 import com.mindfusion.diagramming.*;
 
+//if (newDecision)
+//{
+//	newNode.setShape(Shape.fromId("Decision"));
+//	newNode.setAnchorPattern(AnchorPattern.fromId("Decision2In2Out"));
+//	newNode.setBrush(decisionBrush);
+//	newNode.setText("Decision");
+//	newNode.setTag(true);
+//}
 
 public class Diagrama extends JFrame
 {
@@ -69,15 +77,31 @@ public class Diagrama extends JFrame
 		Document document = loadXmlFile(filepath);
 		Element root = document.getDocumentElement();
 
-		// load node data
+		// traigo todos los nodos, y todos los links
 		NodeList nodes = root.getElementsByTagName("Node");
+		NodeList links = root.getElementsByTagName("Link");
+		
+		List<String> nodosDecision = new ArrayList<String>(); //aca voy a storear los ids de todos los nodos que son decision
+		List<String> nodosNoDecision = new ArrayList<String>();
+		
 		for (int i = 0; i < nodes.getLength(); ++i)
 		{
 			Element node = (Element)nodes.item(i);
+			//nuevocodigo
+			String tipo = node.getAttribute("tipo");
+			switch (tipo) {
+			case "decision":
+				nodosDecision.add(node.getAttribute("id"));
+		 		break;
+		 	
+		 	default:
+		 		nodosNoDecision.add(node.getAttribute("id"));
+		 		break;
+			}
+			
 			ShapeNode diagramNode = diagram.getFactory().createShapeNode(bounds);
 			//Convierte el "tipo" ubicado en el xml en la forma
 			manejador.conversor(node,diagramNode);
-			///
 			String idNodo = node.getAttribute("id");
 			nodeMap.put(idNodo, diagramNode);
 			diagramNode.setText(idNodo);
@@ -86,22 +110,74 @@ public class Diagrama extends JFrame
 			diagramNode.resizeToFitText(FitSize.KeepRatio);
 		}
 
-		// load link data
-		NodeList links = root.getElementsByTagName("Link");
+		
+		
+		List<String> nodosYaLinkeados = new ArrayList<String>(); //para mapear de 1 sola vez
+		// mapeo los links
 		for (int i = 0; i < links.getLength(); ++i)
 		{
+			
 			Element link = (Element)links.item(i);
 			DiagramNode origin = nodeMap.get(link.getAttribute("origin"));
-			DiagramNode target = nodeMap.get(link.getAttribute("target"));
-			diagram.getFactory().createDiagramLink(origin, target);
+			if (!esNodoDecision(link.getAttribute("origin"), nodosDecision)){
+				//es un nodo comun
+				DiagramNode target = nodeMap.get(link.getAttribute("target"));
+				diagram.getFactory().createDiagramLink(origin, target);
+				nodosYaLinkeados.add(link.getAttribute("origin"));
+			}
+			else
+			{
+				//primero me fijo si ya fueron mapeados sus links
+				//entrando a esta parte significa que es un nodo de decision
+				if (!nodosYaLinkeados.contains(link.getAttribute("origin"))) {
+				List<String> idsTarget = new ArrayList<String>();
+				idsTarget = obtenerNodosTargetsDadoUnNodoOrigenDeDecision(link.getAttribute("origin"), links);
+				DiagramNode target1 = nodeMap.get(idsTarget.get(0));
+				DiagramNode target2 = nodeMap.get(idsTarget.get(1));
+				diagram.getFactory().createDiagramLink(origin, target1).setText("SI");
+				diagram.getFactory().createDiagramLink(origin, target2).setText("NO");
+				nodosYaLinkeados.add(link.getAttribute("origin"));
+				}
+			}
 		}
 
-		// arrange the graph
-		LayeredLayout layout = new LayeredLayout();
-		layout.setLayerDistance(12);
+		// Conn esto, menciono que si bien tome un layout de Decision, tambien tengo que mapear todas las relaciones de cada
+		//uno de los nodos, es decir si hay uno que es decision, necesariamente tengo que crear los 2 links de decision seguidos,
+		//no uno, y luego otro.
+		DecisionLayout layout = new DecisionLayout();
+		layout.setHorizontalPadding(10);
+		layout.setVerticalPadding(10);
 		layout.arrange(diagram);
 	}
 
+	
+	boolean esNodoDecision(String idNodo, List<String> nodosDecision) {
+		boolean decision = false;
+		if (nodosDecision.contains(idNodo)){
+			decision = true;	
+		}
+		
+		return decision;	
+	}
+	
+	
+	
+	List<String> obtenerNodosTargetsDadoUnNodoOrigenDeDecision(String idNodoDecision, NodeList links) {
+		
+		List<String> nodosTarget = new ArrayList<String>();
+		for (int i = 0; i < links.getLength(); ++i)
+		{
+			Element link = (Element)links.item(i);
+			String idorigen = link.getAttribute("origin");
+			if (idorigen.equals(idNodoDecision)) {
+				nodosTarget.add(link.getAttribute("target"));
+			}
+
+		}
+		
+		return nodosTarget;
+	}
+	
 	Document loadXmlFile(String filepath)
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
